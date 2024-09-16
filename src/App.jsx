@@ -15,7 +15,7 @@ import logo from './assets/surbhi-document-store-high-logo-transparent.png'
 const Layout = ({ user, onLogout }) => (
     <div className="min-h-screen bg-[#E9EFEC] text-[#16423C]">
         <Header user={user} onLogout={onLogout} />
-        <main className="container mx-auto p-4">
+        <main className="container mx-auto">
             <Outlet />
         </main>
     </div>
