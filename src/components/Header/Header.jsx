@@ -23,7 +23,7 @@ const Header = ({ user }) => {
     };
 
     return (
-        <header className="bg-[#E9EFEC] shadow-md">
+        <header className="bg-[#E9EFEC] shadow-md sticky top-0 z-50">
             <div className="container mx-auto flex justify-between items-center py-4 px-6">
                 <Link to="/dashboard" className="transition duration-300">
                     <img src={logo} alt="Surbhi Document Store" className="w-48"/>
@@ -38,9 +38,9 @@ const Header = ({ user }) => {
                                 onClick={toggleDropdown}
                             />
                             {showDropdown && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                                     <p className="px-4 py-2 text-sm text-gray-700 capitalize">
-                                      Hello  {user.displayName || 'User'}
+                                        Hello  {user.displayName || 'User'}
                                     </p>
                                     <button
                                         onClick={handleLogout}
