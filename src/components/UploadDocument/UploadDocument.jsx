@@ -65,16 +65,16 @@ const UploadDocument = () => {
 
     return (
         <div className="w-full bg-[#E9EFEC] flex items-center justify-center p-4">
-            <div className="flex justify-center items-center w-full gap-7">
-                <div className="w-1/2 pr-8">
+            <div className="flex flex-col md:flex-row justify-center items-center w-full gap-7">
+                <div className="w-1/5 md:w-1/2 pr-0 md:pr-8 mb-8 md:mb-0">
                     <Lottie
                         animationData={animationData}
                         loop={true}
                         style={{width: '100%', maxWidth: '400px', margin: '0 auto'}}
                     />
                 </div>
-                <div className="w-1/2 bg-white rounded-lg shadow-md p-8 h-fit">
-                    <h2 className="text-2xl font-bold text-[#16423C] mb-6 text-center">Upload Resume</h2>
+                <div className="w-full md:w-1/2 bg-white rounded-lg shadow-md p-4 md:p-8 h-fit">
+                    <h2 className="text-xl md:text-2xl font-bold text-[#16423C] mb-4 md:mb-6 text-center">Upload Resume</h2>
                     <div className="mb-6">
                         <label htmlFor="file-upload" className="block text-[#16423C] mb-2">Select PDF file:</label>
                         <input
@@ -82,11 +82,11 @@ const UploadDocument = () => {
                             type="file"
                             accept=".pdf"
                             onChange={handleFileChange}
-                            className="w-full text-[#16423C] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-[#C4DAD2] file:text-[#16423C] hover:file:bg-[#6A9C89]"
+                            className="w-full text-[#16423C] text-sm md:text-base file:mr-2 md:file:mr-4 file:py-1 md:file:py-2 file:px-2 md:file:px-4 file:rounded-md file:border-0 file:text-xs md:file:text-sm file:font-semibold file:bg-[#C4DAD2] file:text-[#16423C] hover:file:bg-[#6A9C89]"
                         />
                     </div>
                     <button
-                        className="w-full bg-[#6A9C89] text-white py-2 px-4 rounded-md hover:bg-[#16423C] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+                        className="w-full bg-[#6A9C89] text-white py-2 px-4 rounded-md text-sm md:text-base hover:bg-[#16423C] transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed mb-3 md:mb-4"
                         onClick={handleUpload}
                         disabled={!file}
                     >
@@ -94,19 +94,19 @@ const UploadDocument = () => {
                     </button>
                     <Link
                         to="/my-document"
-                        className="block w-full text-center bg-[#16423C] text-white py-2 px-4 rounded-md hover:bg-[#6A9C89] transition duration-300"
+                        className="block w-full text-center bg-[#16423C] text-white py-2 px-4 rounded-md text-sm md:text-base hover:bg-[#6A9C89] transition duration-300"
                     >
                         See All Documents
                     </Link>
                     {progress > 0 && (
-                        <div className="mt-4">
-                            <div className="w-full bg-[#C4DAD2] rounded-full h-2.5">
-                                <div className="bg-[#6A9C89] h-2.5 rounded-full" style={{ width: `${progress}%` }}></div>
+                        <div className="mt-3 md:mt-4">
+                            <div className="w-full bg-[#C4DAD2] rounded-full h-2">
+                                <div className="bg-[#6A9C89] h-2 rounded-full" style={{ width: `${progress}%` }}></div>
                             </div>
-                            <p className="text-[#16423C] text-sm mt-2">Upload Progress: {progress.toFixed(2)}%</p>
+                            <p className="text-[#16423C] text-xs md:text-sm mt-1 md:mt-2">Upload Progress: {progress.toFixed(2)}%</p>
                         </div>
                     )}
-                    {uploadStatus && <p className="mt-4 text-center text-[#16423C]">{uploadStatus}</p>}
+                    {uploadStatus && <p className="mt-3 md:mt-4 text-center text-[#16423C] text-sm md:text-base">{uploadStatus}</p>}
                 </div>
             </div>
         </div>
