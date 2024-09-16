@@ -9,7 +9,7 @@ import SignUp from "./components/Auth/SignUp/SignUp.jsx";
 import ForgotPassword from "./components/Auth/ForgotPassword/ForgotPassword.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import UploadDocument from "./components/UploadDocument/UploadDocument.jsx";
-import {Documents} from "./components/Douments/Documnets.jsx";
+import Documents from "./components/Douments/Documnets.jsx";
 import logo from './assets/surbhi-document-store-high-logo-transparent.png'
 import Lottie from "lottie-react";
 import loadingAnimation from "./assets/loading.json";
