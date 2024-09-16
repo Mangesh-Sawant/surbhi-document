@@ -11,6 +11,8 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import UploadDocument from "./components/UploadDocument/UploadDocument.jsx";
 import Documents from "./components/Douments/Documnets.jsx";
 import logo from './assets/surbhi-document-store-high-logo-transparent.png'
+import Lottie from "lottie-react";
+import loadingAnimation from "./assets/loading.json";
 
 const Layout = ({ user, onLogout }) => (
     <div className="min-h-screen bg-[#E9EFEC] text-[#16423C]">
@@ -62,14 +64,20 @@ function App() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="flex justify-center items-center h-screen bg-[#E9EFEC]">
+            <Lottie
+                animationData={loadingAnimation}
+                loop={true}
+                style={{width: 100, height: 100}}
+            />
+        </div>;
     }
 
     return (
-            <Router>
-                <Routes>
-                    <Route element={<AuthLayout />}>
-                        <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
+        <Router>
+            <Routes>
+                <Route element={<AuthLayout/>}>
+                    <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
                         <Route path="/signup" element={user ? <Navigate to="/dashboard" replace /> : <SignUp />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                     </Route>
