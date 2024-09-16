@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { collection, query, where, orderBy, onSnapshot, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db, auth } from '../Auth/firebase.js';
-import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
+import { Worker, Viewer } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import {AnimatePresence} from "framer-motion";
 
 const ResumeCard = ({ resume, onDelete, onUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -58,12 +57,10 @@ const ResumeCard = ({ resume, onDelete, onUpdate }) => {
                 )}
             </AnimatePresence>
             <p className="text-sm sm:text-base text-[#6A9C89] mb-2">Created: {new Date(resume.createdAt.toDate()).toLocaleString()}</p>
-            <div className="flex-grow mb-4">
-                <iframe
-                    src={`${resume.url}#view=FitH`}
-                    className="w-full h-48 sm:h-64 border rounded"
-                    title={resume.name}
-                />
+            <div className="flex-grow mb-4 h-64">
+                <Worker workerUrl={`https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`}>
+                    <Viewer fileUrl={resume.url} />
+                </Worker>
             </div>
             {isEditing ? (
                 <div className="mb-4">
@@ -93,94 +90,3 @@ const ResumeCard = ({ resume, onDelete, onUpdate }) => {
         </div>
     );
 };
-
-const LoadingSpinner = () => (
-    <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-16 w-16 sm:h-32 sm:w-32 border-t-2 border-b-2 border-[#6A9C89]"></div>
-    </div>
-);
-
-const Documents = () => {
-    const [resumes, setResumes] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const resumesCollection = collection(db, 'resumes');
-        const resumesQuery = query(
-            resumesCollection,
-            where('userId', '==', auth.currentUser.uid),
-            orderBy('createdAt', 'desc')
-        );
-
-        const unsubscribe = onSnapshot(resumesQuery, (querySnapshot) => {
-            const resumeList = querySnapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            setResumes(resumeList);
-            setLoading(false);
-        }, (error) => {
-            console.error("Error fetching resumes:", error);
-            setLoading(false);
-        });
-
-        return () => unsubscribe();
-    }, []);
-
-    const handleDelete = async (id) => {
-        try {
-            await deleteDoc(doc(db, 'resumes', id));
-        } catch (error) {
-            console.error("Error deleting document: ", error);
-        }
-    };
-
-    const handleUpdate = async (id, newName) => {
-        try {
-            await updateDoc(doc(db, 'resumes', id), { name: newName });
-        } catch (error) {
-            console.error("Error updating document: ", error);
-        }
-    };
-
-    return (
-        <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8">
-                <h2 className="text-xl sm:text-2xl font-bold text-[#16423C] mb-4 sm:mb-0">Uploaded Resumes</h2>
-                <Link
-                    to="/upload-document"
-                    className="bg-[#6A9C89] text-white px-4 py-2 rounded hover:bg-[#16423C] transition duration-300 w-full sm:w-auto text-center text-sm sm:text-base"
-                >
-                    Upload New Resume
-                </Link>
-            </div>
-            {loading ? (
-                <LoadingSpinner />
-            ) : (
-                <motion.div
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    {resumes.map(resume => (
-                        <motion.div
-                            key={resume.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            <ResumeCard
-                                resume={resume}
-                                onDelete={handleDelete}
-                                onUpdate={handleUpdate}
-                            />
-                        </motion.div>
-                    ))}
-                </motion.div>
-            )}
-        </div>
-    );
-};
-
-export default Documents;
