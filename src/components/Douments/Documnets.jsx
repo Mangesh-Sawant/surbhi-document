@@ -3,7 +3,7 @@ import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import {AnimatePresence} from "framer-motion";
 
-const ResumeCard = ({ resume, onDelete, onUpdate }) => {
+export const Documents = ({ resume, onDelete, onUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newName, setNewName] = useState(resume.name);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
